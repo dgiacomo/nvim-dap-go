@@ -83,25 +83,40 @@ local function setup_go_configuration(dap)
     },
     {
       type = "go",
-      name = "Attach",
+      name = "Attach Local Process",
       mode = "local",
       request = "attach",
       processId = require('dap.utils').pick_process,
     },
     {
       type = "go",
-      name = "Debug test",
+      name = "Debug Test",
       request = "launch",
       mode = "test",
       program = "${file}",
     },
     {
       type = "go",
-      name = "Debug test (go.mod)",
+      name = "Debug Test (go.mod)",
       request = "launch",
       mode = "test",
       program = "./${relativeFileDirname}",
-    }
+    },
+    {
+      type = "go",
+      name = "Attach to Remote Server",
+      request = "attach",
+      mode = "remote",
+      port = 9999,
+      host = "127.0.0.1",
+      trace = "verbose",
+      substitutePath = {
+        {
+          from = "${workspaceFolder}/${relativeFileDirname}",
+          to = "${relativeFileDirname}"
+        }
+      },
+    },
   }
 end
 
