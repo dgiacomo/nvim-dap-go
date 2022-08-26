@@ -2,6 +2,9 @@ local query = require "vim.treesitter.query"
 
 local M = {}
 
+local remote_debug_host = "127.0.1.1";
+local remote_debug_port = 9999;
+
 local tests_query = [[
 (function_declaration
   name: (identifier) @testname
@@ -61,7 +64,7 @@ local function setup_go_adapter(dap)
     -- Wait for delve to start
     vim.defer_fn(
       function()
-        callback({type = "server", host = "127.0.0.1", port = port})
+        callback({type = "server", host = host, port = port})
       end,
       100)
   end
@@ -107,8 +110,8 @@ local function setup_go_configuration(dap)
       name = "Attach to Remote Server",
       request = "attach",
       mode = "remote",
-      port = 9999,
-      host = "127.0.0.1",
+      port = function () return remote_debug_port end,
+      host = function () return remote_debug_host end,
       trace = "verbose",
       substitutePath = {
         {
@@ -136,6 +139,16 @@ local function debug_test(testname)
       program = "./${relativeFileDirname}",
       args = {"-test.run", testname},
   })
+end
+
+function M.set_remote_debug_host(remote_host)
+  remote_debug_host = remote_host
+end
+
+function M.set_remote_debug_port(remote_port)
+  assert(remote_port > 1025 and remote_port < 65536,
+    string.format('Remote debug port must be between 1025 - 65536, got: %q', remote_port))
+    remote_debug_port = remote_port
 end
 
 local function get_closest_above_cursor(test_tree)
