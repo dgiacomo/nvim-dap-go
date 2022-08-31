@@ -2,7 +2,7 @@ local query = require "vim.treesitter.query"
 
 local M = {}
 
-local remote_debug_host = "127.0.1.1";
+local remote_debug_host = "localhost";
 local remote_debug_port = 9999;
 
 local tests_query = [[
@@ -115,8 +115,8 @@ local function setup_go_configuration(dap)
       trace = "verbose",
       substitutePath = {
         {
-          from = "${workspaceFolder}/${relativeFileDirname}",
-          to = "${relativeFileDirname}"
+          from = "${workspaceFolder}/",
+          to = "",
         }
       },
     },
