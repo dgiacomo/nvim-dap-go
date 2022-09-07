@@ -2,7 +2,7 @@ local query = require "vim.treesitter.query"
 
 local M = {}
 
-local remote_debug_host = "127.0.1.1";
+local remote_debug_host = "localhost";
 local remote_debug_port = 9999;
 
 local tests_query = [[
@@ -80,6 +80,23 @@ local function setup_go_configuration(dap)
     },
     {
       type = "go",
+      name = "Bazel Debug Binary",
+      request = "launch",
+      mode = "exec",
+      program = "${bazelBinary}",
+      substitutePath = {
+        {
+          from = "${workspaceFolder}",
+          to = "",
+        },
+        {
+          from = "github.com/mux/muxinc/",
+          to = "",
+        }
+      },
+    },
+   {
+      type = "go",
       name = "Debug Package",
       request = "launch",
       program = "${fileDirname}",
@@ -115,8 +132,8 @@ local function setup_go_configuration(dap)
       trace = "verbose",
       substitutePath = {
         {
-          from = "${workspaceFolder}/${relativeFileDirname}",
-          to = "${relativeFileDirname}"
+          from = "${workspaceFolder}/",
+          to = "",
         }
       },
     },
