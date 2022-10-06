@@ -59,6 +59,16 @@ The default port is set to `9999`. Use the following config to override it:
 The default remote host is "127.0.0.1". Set the following config to override it:
 - `:lua require('dap-go').set_remote_debug_host('hostname')`
 
+### Debugging with command-line arguments
+
+1. Select the option `Debug (Arguments)`
+1. Enter each argument separated by a space (i.e. `option1 option2 option3`)
+1. Press enter
+
+![Start Debug Session with Arguments](./images/image1.png "Start Debug Session with Arguments")
+![Enter Arguments](./images/image2.png "Enter Arguments")
+![Begin Debugging](./images/image3.png "Being Debugging")
+
 ## Mappings
 
 ```vimL
