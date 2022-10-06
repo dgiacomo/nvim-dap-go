@@ -80,6 +80,23 @@ local function setup_go_configuration(dap)
     },
     {
       type = "go",
+      name = "Bazel Debug Binary",
+      request = "launch",
+      mode = "exec",
+      program = "${bazelBinary}",
+      substitutePath = {
+        {
+          from = "${workspaceFolder}",
+          to = "",
+        },
+        {
+          from = "github.com/mux/muxinc/",
+          to = "",
+        }
+      },
+    },
+   {
+      type = "go",
       name = "Debug Package",
       request = "launch",
       program = "${fileDirname}",
